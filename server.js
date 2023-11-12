@@ -7,9 +7,7 @@ let sql;
 
 const app = express();
 
-app.use(cors({
-  origin:"http://localhost:8081"
-}));
+app.use(cors());
 
 const db=new sqlite3.Database("./test.db",sqlite3.OPEN_READWRITE,(err)=>{
     if (err) return console.log(err.message)
