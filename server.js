@@ -55,8 +55,13 @@ const app = express();
 app.use(cors());
 
 app.get("/",(req,res)=>{
-    sql=`SELECT * FROM products`
-    db.all(sql,[],(err,rows)=>{
+    const limit=req.query.limit
+    const offset=req.query.offset
+    const selectedMonth = req.query.month;
+    const month=parseInt(selectedMonth)<10?`0${selectedMonth}`:`${selectedMonth}`
+    console.log(month)
+    sql=`SELECT * FROM products WHERE strftime('%m',dateOfSale) = ? LIMIT ${limit} OFFSET ${offset}`
+    db.all(sql,[month],(err,rows)=>{
         if(err) return console.error(err);
         const items=rows.map(row=>{
             //console.log(row)
@@ -69,7 +74,8 @@ app.get("/",(req,res)=>{
 })
 
 app.get("/statistics",(req,res)=>{
-    const month=req.query.month
+  const selectedMonth = req.query.month;
+  const month=parseInt(selectedMonth)<10?`0${selectedMonth}`:`${selectedMonth}`
     sql=`SELECT SUM(price),COUNT(sold),count(sold=0) FROM products WHERE strftime('%m',dateOfSale) = ?`;
     db.get(sql,[`${month}`],(err,rows)=>{
         if(err) return console.error(err);
@@ -86,6 +92,7 @@ app.get("/statistics",(req,res)=>{
 
 app.get('/bar-chart', (req, res) => {
     const selectedMonth = req.query.month;
+    const month=parseInt(selectedMonth)<10?`0${selectedMonth}`:`${selectedMonth}`
   
     if (!selectedMonth) {
       return res.status(400).json({ error: 'Month parameter is required' });
@@ -94,7 +101,7 @@ app.get('/bar-chart', (req, res) => {
     // SQL query to get data for the selected month
     sql = `SELECT * FROM products WHERE strftime('%m',dateOfSale) = ?`;
   
-    db.all(sql, [`${selectedMonth}`], (err, rows) => {
+    db.all(sql, [month], (err, rows) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
@@ -140,18 +147,19 @@ app.get('/bar-chart', (req, res) => {
       });
   
       // Return the response in the desired format
-      const responseData = { month: selectedMonth, data: priceRanges };
+      const responseData = { month: selectedMonth, data: priceRanges }
       res.json(responseData);
     });
   });
 
   app.get("/pie-chart",(req,res)=>{
     const selectedMonth=req.query.month
+    const month=parseInt(selectedMonth)<10?`0${selectedMonth}`:`${selectedMonth}`
     if (!selectedMonth) {
         return res.status(400).json({ error: 'Month parameter is required' });
     }
     sql=`SELECT category,COUNT(*) AS no_of_items FROM products WHERE strftime('%m',dateOfSale) = ? GROUP BY category`
-    db.all(sql,[`${selectedMonth}`],(err,rows)=>{
+    db.all(sql,[month],(err,rows)=>{
         if (err) {
             return res.status(500).json({ error: err.message });
         }
