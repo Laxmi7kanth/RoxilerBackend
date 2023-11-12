@@ -5,6 +5,10 @@ const cors=require("cors");
 const sqlite3=require("sqlite3").verbose()
 let sql;
 
+const app = express();
+
+app.use(cors());
+
 const db=new sqlite3.Database("./test.db",sqlite3.OPEN_READWRITE,(err)=>{
     if (err) return console.log(err.message)
 })
@@ -50,9 +54,6 @@ async function getData(url){
 //     })
 // })
 
-const app = express();
-
-app.use(cors());
 
 app.get("/",(req,res)=>{
     const limit=req.query.limit
