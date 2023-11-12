@@ -62,7 +62,7 @@ app.get("/",(req,res)=>{
     const searchq=req.query.searchq
     const month=parseInt(selectedMonth)<10?`0${selectedMonth}`:`${selectedMonth}`
     console.log(month)
-    sql=`SELECT * FROM products WHERE strftime('%m',dateOfSale) = ? AND title LIKE ${%searchq%} LIMIT ${limit} OFFSET ${offset}`
+    sql=`SELECT * FROM products WHERE strftime('%m',dateOfSale) = ? AND title LIKE "%${searchq}%" LIMIT ${limit} OFFSET ${offset}`
     db.all(sql,[month],(err,rows)=>{
         if(err) return console.error(err);
         const items=rows.map(row=>{
