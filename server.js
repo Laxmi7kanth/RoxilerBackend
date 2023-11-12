@@ -7,6 +7,7 @@ let sql;
 
 const app = express();
 
+app.use(express.json())
 app.use(cors());
 
 const db=new sqlite3.Database("./test.db",sqlite3.OPEN_READWRITE,(err)=>{
