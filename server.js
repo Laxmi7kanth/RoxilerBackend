@@ -109,42 +109,31 @@ app.get('/bar-chart', (req, res) => {
       }
   
       // Initialize price ranges and count dictionary
-      const priceRanges = {
-        '0-100': 0,
-        '101-200': 0,
-        '201-300': 0,
-        '301-400': 0,
-        '401-500': 0,
-        '501-600': 0,
-        '601-700': 0,
-        '701-800': 0,
-        '801-900': 0,
-        '901-above': 0,
-      };
+      const priceRanges = [{name:"0-100",no_of_items:0},{name:"101-200",no_of_items:0},{name:"201-300",no_of_items:0},{name:"301-400",no_of_items:0},{name:"401-500",no_of_items:0},{name:"501-600",no_of_items:0},{name:"601-700",no_of_items:0},{name:"701-800",no_of_items:0},{name:"801-900",no_of_items:0},{name:"901-above",no_of_items:0}];
   
       // Count items in each price range
       rows.forEach((item) => {
         const price = item.price;
         if (price <= 100) {
-          priceRanges['0-100'] += 1;
+          priceRanges.map((eachItem)=>eachItem.name==="0-100"?eachItem.no_of_items+=1:eachItem.no_of_items)
         } else if (price <= 200) {
-          priceRanges['101-200'] += 1;
+          priceRanges.map((eachItem)=>eachItem.name==="101-200"?eachItem.no_of_items+=1:eachItem.no_of_items)
         } else if (price <= 300) {
-          priceRanges['201-300'] += 1;
+          priceRanges.map((eachItem)=>eachItem.name==="201-300"?eachItem.no_of_items+=1:eachItem.no_of_items)
         } else if (price <= 400) {
-          priceRanges['301-400'] += 1;
+          priceRanges.map((eachItem)=>eachItem.name==="301-400"?eachItem.no_of_items+=1:eachItem.no_of_items)
         } else if (price <= 500) {
-          priceRanges['401-500'] += 1;
+          priceRanges.map((eachItem)=>eachItem.name==="401-500"?eachItem.no_of_items+=1:eachItem.no_of_items)
         } else if (price <= 600) {
-          priceRanges['501-600'] += 1;
+          priceRanges.map((eachItem)=>eachItem.name==="501-600"?eachItem.no_of_items+=1:eachItem.no_of_items)
         } else if (price <= 700) {
-          priceRanges['601-700'] += 1;
+          priceRanges.map((eachItem)=>eachItem.name==="601-700"?eachItem.no_of_items+=1:eachItem.no_of_items)
         } else if (price <= 800) {
-          priceRanges['701-800'] += 1;
+          priceRanges.map((eachItem)=>eachItem.name==="701-800"?eachItem.no_of_items+=1:eachItem.no_of_items)
         } else if (price <= 900) {
-          priceRanges['801-900'] += 1;
+          priceRanges.map((eachItem)=>eachItem.name==="801-900"?eachItem.no_of_items+=1:eachItem.no_of_items)
         } else {
-          priceRanges['901-above'] += 1;
+          priceRanges.map((eachItem)=>eachItem.name==="901-above"?eachItem.no_of_items+=1:eachItem.no_of_items)
         }
       });
   
